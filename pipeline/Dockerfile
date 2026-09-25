@@ -4,13 +4,13 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin
 WORKDIR /code
 ENV PATH="/code/.venv/bin:$PATH"
 # copy dependencies 
-COPY .python-version pyproject.toml  uv.lock ./
+COPY  pyproject.toml .python-version uv.lock ./
 
 # sync dependencies to docker
 RUN uv sync --locked --no-install-project
 
 RUN pip install pandas pyarrow
 
-COPY pipeline.py .
+COPY ingest-data.py .
 
-ENTRYPOINT ["python", "pipeline.py"]
+ENTRYPOINT ["python", "ingest-data.py"]
